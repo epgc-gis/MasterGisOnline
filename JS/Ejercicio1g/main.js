@@ -40,3 +40,13 @@ function CelsiusAFarenheit (gradosCelsius){
     return (gradosCelsius *(9/5) +32)
 }
 console.log('Ejercicio 1g.3 =', CelsiusAFarenheit (20))
+
+//Ejercici 1g.4
+
+function checkNumber(numero){
+    if (numero %2 ==0) {
+        return 'Numero Par'
+    } else {
+        return 'Numero Impar'
+    }
+}
