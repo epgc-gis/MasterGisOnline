@@ -7,3 +7,10 @@ for(let i = 0; i < notas.length; i++) {
 }
 
 console.log(sumaFor)
+
+let sumaForOf = 0
+for(let nota of notas){
+    sumaForOf += nota
+}
+
+console.log(sumaForOf)
