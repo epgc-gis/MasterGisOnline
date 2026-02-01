@@ -69,7 +69,7 @@ mayusOMinus(promptUsuario)
 
 // Ejercicio 1g.6
 
-const topics =  [“JavaScript”, “Variables”, “funciones”, “condicionales”, “bucles”];
+const topics =  ['JavaScript', 'Variables', 'funciones', 'condicionales', 'bucles'];
 
 function invertirMayus(array){
     const arrayMayus = array.map((topic)=>{
