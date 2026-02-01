@@ -4,8 +4,8 @@ function sumaNumerosPares(numeros){
     let suma =0
 
     for(const numero of numeros){
-        if(numero%2 ==0){
-            suma+= numero
+        if(numero % 2 == 0){
+            suma += numero
         }
     }
     return suma
