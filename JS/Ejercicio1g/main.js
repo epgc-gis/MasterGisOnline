@@ -79,3 +79,39 @@ function invertirMayus(array){
     return arrayMayus
 }
 console.log('Ejercicio 1g.6 =', invertirMayus(topics))
+
+//Ejercicio 1g.7
+
+const number = [253, 8575, 1, 20, 562, 1233, 25, 27, 258, 254, 7485, 2683];
+
+function paresArray(arrayNumeros){
+    return arrayNumeros.filter(numero => numero % 2==0)
+
+}
+console.log ('Ejercicio 1g.7', paresArray(number))
+
+//Ejercicio 1g.8
+
+const meses = [
+    'enero',
+    'febrero',
+    'marzo',
+    'abril',
+    'mayo',
+    'junio',
+    'julio',
+    'agosto',
+    'septiembre',
+    'octubre',
+    'noviembre',
+    'diciembre'
+]
+
+function mesesLargosMayusculas(arrayMeses) {
+    return arrayMeses
+        .filter((mes) => mes.length > 7)
+        .map((mes) => {
+            return mes.toUpperCase()
+        })
+}
+console.log ('Ejercicio 1g.8 =', mesesLargosMayusculas(meses))
