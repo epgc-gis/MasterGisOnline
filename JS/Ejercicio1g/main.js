@@ -50,3 +50,19 @@ function checkNumber(numero){
         return 'Numero Impar'
     }
 }
+
+//Ejercicio 1g.5
+
+const promptUsuario = prompt('Escribe la cadena a evaluar')
+
+function mayusOMinus (cadenaDeTexto){
+    if(promptUsuario == promptUsuario.toUpperCase()){
+        return alert ('La cadena está en mayúsculas')
+    } else if (promptUsuario==promptUsuario.toLowerCase()){
+         return alert ('La cadena está en minúsculas')
+    }else {
+        return alert(' La cadena tienemayúsculas y minúsculas')
+    }
+}
+        
+mayusOMinus(promptUsuario)
