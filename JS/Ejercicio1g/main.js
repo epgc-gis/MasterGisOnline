@@ -66,3 +66,16 @@ function mayusOMinus (cadenaDeTexto){
 }
         
 mayusOMinus(promptUsuario)
+
+// Ejercicio 1g.6
+
+const topics =  [“JavaScript”, “Variables”, “funciones”, “condicionales”, “bucles”];
+
+function invertirMayus(array){
+    const arrayMayus = array.map((topic)=>{
+        return topic.toUpperCase()
+    })
+    arrayMayus.reverse()
+    return arrayMayus
+}
+console.log('Ejercicio 1g.6 =' invertirMayus(topics))
