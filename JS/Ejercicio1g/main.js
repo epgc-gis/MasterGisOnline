@@ -78,4 +78,4 @@ function invertirMayus(array){
     arrayMayus.reverse()
     return arrayMayus
 }
-console.log('Ejercicio 1g.6 =' invertirMayus(topics))
+console.log('Ejercicio 1g.6 =', invertirMayus(topics))
