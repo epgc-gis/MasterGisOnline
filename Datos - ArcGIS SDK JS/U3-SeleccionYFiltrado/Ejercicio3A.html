@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Query</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.27/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.27/"></script>
+
+    <script>
+      require([], function () {
+        // Se crea la capa de resultados con el GraphiLayer
+
+        var resultsLayer = new GraphicsLayer()
+
+        // Se crea el mapa añadiendo la capa de resultados directamente
+
+        var map = new Map({
+          basemap: 'streets',
+          layers: [resultsLayer]
+        })
+
+        // Se crea la vista del mapa
+
+        var view = new MapView({
+          container: 'viewDiv',
+          map: map,
+          zoom: 5,
+          center: [-112.9007, 45.0379]
+        })
+
+        // Se llama a la featureLayer a la que haremos la query, que en este caso dejaremos oculta
+
+        // Se crea la query de tipo where
+
+        // En este paso ejecutamos la query en la capa. Y esperamos la respuesta con .then y .catch que gestiona los errores
+
+        // Se genera la simbología para cada uno de los resultados
+      })
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>

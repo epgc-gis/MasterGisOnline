@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Query Múltiple</title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.27/esri/themes/dark/main.css"
+    />
+    <script src="https://js.arcgis.com/4.27/"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <script>
+
+    // Cargamos los módulos necesarios para la aplicación web
+
+    require([
+
+
+      ], function () {
+
+        // Construimos el objeto mapa
+
+
+        // Construimos el objeto vista
+
+
+
+        // Construimos las capas
+
+
+
+        // Construimos una capa gráfica para guardar los resultados
+
+
+
+        //Ralizo una consulta a la capa de paises del mundo para seleccionar España.
+
+        var queryEspaña = new Query({
+
+        });
+
+        paisesMundoFL
+          .queryFeatures() // hay que pasar la query que acabamos de crear
+          .then(function (results) {
+            // El resultado es un array de 9 objetos
+
+            results.features.map((poligono) => {
+
+              //Segunda Query, selección de todos los incendios que se encuentren en España y tenga un valor de confidencia mayor de 50
+
+              const queryPoligonos = new Query({
+
+              });
+
+              // Aplicamos la Query a la capa de incendios
+
+              incendiosFL
+                .queryFeatures()
+                .then(function (results) {
+
+                });
+            });
+
+            // Añadimos la capa gráfica al mapa con los resultados
+
+            map.add(resultadoGL);
+          })
+          .otherwise(function (error) {
+            console.log(error);
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Escenas 3D</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    #environmentDiv {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 12px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.27/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.27/"></script>
+
+  <script>
+    require([
+      "esri/Map",
+    ], function(Map) {
+
+      // 
+
+      var map = new Map({
+        basemap: "streets",
+        ground: "world-elevation"
+      });
+
+     
+      // Añade el SceneView
+
+
+      // Ajusta las propiedades de entorno para la escena 3D
+      
+
+
+      // Crea una SceneLayer y añadela a la escena
+
+
+
+      // Eventos que registran el cambio de opción en el menú de controles
+
+      document.getElementById("timeOfDaySelect").addEventListener("change", updateTimeOfDay);
+      document.getElementById("directShadowsInput").addEventListener("change", updateDirectShadows);
+
+      // Funciones que realizan el cambio una vez el evento haya detectado el cambio de opción en el selector
+
+      // Función para actualizar la hora y el día.
+
+      function updateTimeOfDay(ev) {
+        var select = ev.target;
+        var date = select.options[select.selectedIndex].value;
+        
+        view.environment.lighting.date = new Date(date);
+        
+      }
+
+      // Función para activar o desactivar las sombras.
+
+      function updateDirectShadows(ev) {
+        view.environment.lighting.directShadowsEnabled = !!ev.target.checked;
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="environmentDiv">
+    <table>
+      <tr>
+        <td>Time of day:</td>
+        <td>
+          <select id="timeOfDaySelect">
+            <option value="Sun Mar 15 2015 09:00:00 GMT+0200 (CET)">Morning</option>
+            <option value="Sun Mar 15 2015 12:00:00 GMT+0200 (CET)">Noon</option>
+            <option value="Sun Mar 15 2015 16:00:00 GMT+0200 (CET)">Afternoon</option>
+            <option value="Sun Mar 15 2015 18:00:00 GMT+0200 (CET)">Evening</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Direct shadows:</td>
+        <td><input id="directShadowsInput" type="checkbox" checked="yes"></td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
