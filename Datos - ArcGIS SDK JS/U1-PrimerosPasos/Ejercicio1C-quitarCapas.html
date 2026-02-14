@@ -36,7 +36,7 @@
         // Construimos el objeto mapa
 
         var map = new Map({
-          basemap: "topo"
+          basemap: "topo-vector"
         });
 
         //Construir el objeto vista.
@@ -61,7 +61,10 @@
         console.log("Número de capas en el mapa: " + map.layers.length);
 
         // Quitamos la capa del mapa
-        
+        map.remove(featureLayer);
+
+        // Verificación adicional
+        console.log("Número de capas en el mapa: " + map.layers.length);
 
       });
   </script>

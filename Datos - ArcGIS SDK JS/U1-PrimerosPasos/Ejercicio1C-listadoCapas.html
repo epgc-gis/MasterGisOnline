@@ -36,7 +36,7 @@
         // Construimos el objeto mapa
 
         var map = new Map({
-          basemap: "topo"
+          basemap: "topo-vector"
         });
 
         // Construir el objeto vista.
@@ -62,7 +62,9 @@
 
         //Lista las capas que están añadidas al mapa en la consola.
         
-      
+        map.layers.forEach(function(layer) {
+          console.log("Título: " + layer.title + " | Tipo: " + layer.type);
+        });
 
       });
   </script>
