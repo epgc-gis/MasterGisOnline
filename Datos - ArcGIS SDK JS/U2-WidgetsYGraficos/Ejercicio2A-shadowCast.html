@@ -23,8 +23,10 @@
     <script>
 
         require([
-
-        ],() => {
+            "esri/WebScene",
+            "esri/views/SceneView",
+            "esri/widgets/ShadowCast"
+        ], (WebScene, SceneView, ShadowCast) => {
 
             // Creamos el mapa y la vista
 

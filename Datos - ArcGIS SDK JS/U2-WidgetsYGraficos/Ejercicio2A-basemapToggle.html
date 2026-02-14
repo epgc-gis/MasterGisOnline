@@ -22,9 +22,10 @@
   <script>
     require([
         "esri/Map",
-        "esri/views/MapView"
+        "esri/views/MapView",
+        "esri/widgets/BasemapToggle"
       ],
-      function(Map, MapView) {
+      function(Map, MapView, BasemapToggle) {
 
         // Creamos el mapa
 
@@ -42,11 +43,15 @@
         });
 
         // Creamos el Widget BasemapToggle
-
+        var basemapToggle = new BasemapToggle({
+            view: view,
+            nextBasemap: "satellite"
+        })
         
         // Añadimos el Widget BasemapToggle a la vista.
 
-        
+        view.ui.add(basemapToggle, 'top-right');
+
       });
   </script>
 </head>
