@@ -29,14 +29,24 @@
         ], (WebScene, SceneView, ShadowCast) => {
 
             // Creamos el mapa y la vista
+            let view = new SceneView({
+              container: "viewDiv",
 
+              map: new WebScene({
+                portalItem: {
+                   id: "3acf05d51db2456b9a808edfcc081059"
+                  }
+                })
+            })
 
             // Creamos el widget
-
-            
+            const widget = new ShadowCast({
+              view: view
+            });
             // Añadir el widget a la parte superior derecha de la pantalla
                 
-
+            view.ui.add(widget, "top-right");
+            
             // Establecer el día en el que está configurada la vista
 
             widget.viewModel.date = new Date("May 1, 2023");

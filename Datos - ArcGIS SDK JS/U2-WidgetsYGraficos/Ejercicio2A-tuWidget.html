@@ -22,14 +22,15 @@
   <script>
     require([
         "esri/Map",
-        "esri/views/MapView"
-      ],
-      function(Map, MapView) {
+        "esri/views/MapView",
+        "esri/widgets/BasemapGallery"
+    ], function(Map, MapView, BasemapGallery) {
+    
 
         // Creamos el mapa
 
         var map = new Map({
-          basemap: "topo"
+          basemap: "topo-vector"
         });
 
         // Creamos la vista
@@ -43,9 +44,12 @@
 
         // Crea el widget que más te guste.
 
-        
-        // Añade el widget a la vista.
+        var basemapGallery = new BasemapGallery({
+          view: view
+        });
 
+        // Añade el widget a la vista.
+        view.ui.add(basemapGallery, "top-right");
         
       });
   </script>
