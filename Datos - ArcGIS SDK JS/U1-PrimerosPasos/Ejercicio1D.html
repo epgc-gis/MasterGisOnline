@@ -30,7 +30,9 @@
   <script>
     require([
       "esri/Map",
-    ], function(Map) {
+      "esri/views/SceneView",
+      "esri/layers/SceneLayer"
+    ], function(Map, SceneView, SceneLayer) {
 
       // 
 
@@ -41,15 +43,42 @@
 
      
       // Añade el SceneView
-
+        // Creamos la vista 3D
+      var view = new SceneView({
+        // Elemento del HTML donde se mostrará la Escena
+        container: "viewDiv",
+        // Mapa que utilizará la escena como base
+        map: map,
+        // Propiedades de la camara inicial de la escena.
+        camera: {
+          position: [9.993682, 53.53, 2408],
+          tilt: 50
+        }
+      });
 
       // Ajusta las propiedades de entorno para la escena 3D
-      
+      view.environment = {
+        lighting: {
+          directShadowsEnabled: true,
+          date: new Date("Sun Mar 15 2023 18:00:00 GMT+0100 (CET)")
+        }
+      };
 
 
       // Crea una SceneLayer y añadela a la escena
 
+     let sceneLayer = new SceneLayer({
+        portalItem: {
+          id: "327d6b60509f4ddab12ee5a424fac7de"
+        }
+     });
+      
 
+      // sceneLayer= new SceneLayer({
+       // url: "https://tiles.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/Buildings_Hamburg/SceneServer/layers/0"
+     // });
+
+      map.add(sceneLayer);
 
       // Eventos que registran el cambio de opción en el menú de controles
 
