@@ -28,7 +28,7 @@
              "esri/Map",
              "esri/views/MapView",
              "esri/layers/FeatureLayer",
-             "esri/widgets/Search",
+             "esri/widgets/Search"
 
             ],function(Map, MapView, FeatureLayer, Search){
 
@@ -52,39 +52,39 @@
             const hospitalesFeatureLayer = new FeatureLayer({
                 url: "https://services1.arcgis.com/nCKYwcSONQTkPA4K/arcgis/rest/services/Hospitales/FeatureServer/0",
                 popupTemplate: {
-                    title: "{NOMBRE}",
-                    content: "{PROVINCIAS}"
+                    title: "{Nombre}",
+                    content: "{Provincia}"
                 }
             });
 
             // Crear el widget de búsqueda
 
             const searchWidget = new Search({
-                view: ,
-
+                view: view,
+                suggestionsEnabled: true,
+                 maxSuggestions: 4,
+            
 
                 // Ajustar la fuente del dato localizador
 
                 sources: [{
                     layer: hospitalesFeatureLayer,
-                    searchFields: ,
-                    suggestionTemplate: " ",
+                    searchFields: ["Nombre", "Provincia"],
+                    suggestionTemplate: "{Nombre} - {Provincia}",
                     exactMatch: false,
                     outFields: ["*"],
-                    placeholder: " ",
+                    placeholder: "Ejemplo: Hospital de Leza",
                     name: "Hospitales",
                     resultSymbol: {
                         type: "simple-marker",
                         color: [119, 158, 203, 0.9],
                         style: "circle",
-                        outline:{
+                        outline: {
                             color: "white",
                             width: 1
                         }
-                    }, 
-                }
-            ],
-
+                    } 
+                }]
             });
 
             // Añadir el widget a la vista
