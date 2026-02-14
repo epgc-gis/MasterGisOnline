@@ -20,34 +20,57 @@
     </style>
 
     <script>
-        require([
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/core/reactiveUtils"
+    ],     
 
-      ],
+// Cargamos los módulos necesarios para la aplicación web
 
-      // Cargamos los módulos necesarios para la aplicación web
-
-      function(
-
-      ) {
+    function(
+        Map,
+        MapView,
+        FeatureLayer,
+        reactiveUtils
+    ) {
         
         
         // Construimos el objeto mapa
 
+    var map = new Map({
+      basemap: "topo-vector"
+    });
 
         // Construimos el objeto vista
 
+    var view = new MapView({
+      container: "viewDiv",
+      map: map,
+      center: [140, 40],
+      zoom: 5
+    });
 
 
         // Construimos las capas
 
+    var earthquakes = new FeatureLayer({
+     url: "https://services.arcgis.com/ue9rwulIoeLEI9bj/arcgis/rest/services/Strong_Earthquakes_2012_2014/FeatureServer/0" 
+    });
 
+    var countries = new FeatureLayer({
+     url: 'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Countries_(Generalized)/FeatureServer/0' 
+    });
 
         // Añadimos una de las capas al mapa
-
+    map.add (earthquakes);
 
         // Utilizamos los reactive Utils para vigilar el estado de la capa y en el momento
         // Que se clique en la vista se añade la capa al mapa.
-
+    reactiveUtils.on( () => view , 'click' , () => {
+      map.add(countries)
+    })
 
       })
     </script>
