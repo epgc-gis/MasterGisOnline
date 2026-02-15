@@ -23,10 +23,13 @@
         // Carga los módulos necesarios
 
         require([
+            "esri/widgets/Sketch",
             "esri/Map",
             "esri/layers/GraphicsLayer",
             "esri/views/MapView",
-        ], (Map, GraphicsLayer, MapView) => {
+            "esri/widgets/Sketch/SketchViewModel"
+        ], (Sketch, Map, GraphicsLayer, MapView, SketchViewModel) => {
+       
 
             // Creamos la capa gráfica
 
@@ -50,8 +53,51 @@
 
             // Creamos el widget de Sketch
 
+            const sketch = new Sketch({
+                view: view, // Vista que corresponde el widget
+                layer: graphicsLayer, // Capa donde se insertarán los elementos
+                viewModel: new SketchViewModel({
+
+        // Simbología que utilizará si es un polígono
+  
+                view: view,
+                layer: graphicsLayer,
+                    polygonSymbol: {
+                        type: "simple-fill",
+                        style: "cross",
+                        color: "#EFC8B1",
+                        outline: {
+                        width: 3,
+                        style: "solid",
+                        color: "#514644"
+                        }
+                    },
+
+                // Simbología que utilizará si es un punto
+
+                    pointSymbol: {
+                        type: "simple-marker",
+                        style: "diamond",
+                        size: 6,
+                        color: [255, 255, 255],
+                        outline: {
+                        color: [50, 50, 50],
+                        width: 1
+                        }
+                    },
+
+                    // Simbología que se usará si es polilínea.
+
+                    polylineSymbol: {
+                        type: "simple-line",
+                        color: [255, 130, 130],
+                        width: 5
+                    }
+              })      
+            });
 
             // Añadimos el widget a la vista.
+            view.ui.add(sketch, "top-right");
 
             
         });
