@@ -27,33 +27,53 @@
     // Cargamos los módulos necesarios para la aplicación web
 
     require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/rest/support/Query",
+      "esri/layers/GraphicsLayer"
+    ], 
 
-
-      ], function () {
+    function (Map, MapView, FeatureLayer, Query, GraphicsLayer) {
 
         // Construimos el objeto mapa
-
+      var map = new Map({
+        basemap: "hybrid",
+      });
 
         // Construimos el objeto vista
-
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-4, 40],
+        zoom: 6,
+      });
 
 
         // Construimos las capas
+        const incendiosFL = new FeatureLayer({
+          url: "https://services9.arcgis.com/RHVPKKiFTONKtxq3/arcgis/rest/services/MODIS_Thermal_v1/FeatureServer"
+        });
 
+        const paisesMundoFL = new FeatureLayer({
+          url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Countries/FeatureServer/0"
+        });
 
 
         // Construimos una capa gráfica para guardar los resultados
-
+        const resultadoGL = new GraphicsLayer();
 
 
         //Ralizo una consulta a la capa de paises del mundo para seleccionar España.
 
         var queryEspaña = new Query({
-
+          where: "ISO_CC = 'ESP'",
+          returnGeometry: true,
+          outFields: ["COUNTRY"]
         });
 
         paisesMundoFL
-          .queryFeatures() // hay que pasar la query que acabamos de crear
+          .queryFeatures(queryEspaña) // hay que pasar la query que acabamos de crear
           .then(function (results) {
             // El resultado es un array de 9 objetos
 
@@ -62,18 +82,35 @@
               //Segunda Query, selección de todos los incendios que se encuentren en España y tenga un valor de confidencia mayor de 50
 
               const queryPoligonos = new Query({
-
+                geometry: poligono.geometry,
+                spatialRelationship: "contains",
+                returnGeometry: true,
+                where: "CONFIDENCE > 50"
               });
 
               // Aplicamos la Query a la capa de incendios
 
               incendiosFL
-                .queryFeatures()
+                .queryFeatures(queryPoligonos)
                 .then(function (results) {
 
                 });
-            });
 
+                // Gestionamos los resultados de la query
+              results.features.map((entidad) => {
+                
+                // Le pasamos una simbología personalizada (icono de fuego)
+                entidad.symbol = {
+                  type: "picture-marker",
+                  url: "https://cdn-icons-png.flaticon.com/512/1172/1172477.png?w=7",
+                  width: "64px",
+                  height: "64px",
+                };
+            
+                // Añadimos las entidades a la capa gráfica que creamos al inicio
+                resultadoGL.add(entidad);
+              });
+            });
             // Añadimos la capa gráfica al mapa con los resultados
 
             map.add(resultadoGL);
