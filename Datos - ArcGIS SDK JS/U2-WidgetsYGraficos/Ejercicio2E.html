@@ -88,7 +88,16 @@
                 }
             };
 
+            //Definimos los atributos
+            const attributes = {
+                Name: "Elemento Geográfico",
+                Owner: "Esri España"
+            };
 
+            const popupTemplate = {
+                title: "{Name}",
+                content: "Este gráfico ha sido añadido a la capa gráfica."
+            };
             // Construimos los gráficos del punto, polilínea y polígono
             const pointGraphic = new Graphic({
                 geometry: point,
