@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Query</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.27/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.27/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/rest/support/Query",
+        "esri/layers/GraphicsLayer",
+        "esri/Graphic" // Módulo necesario para dibujar el polígono de selección
+      ], function (Map, MapView, FeatureLayer, Query, GraphicsLayer, Graphic) {
+      
+
+        // Se crea la capa de resultados con el GraphiLayer
+
+        var resultsLayer = new GraphicsLayer()
+
+        // Se crea el mapa añadiendo la capa de resultados directamente
+
+        var map = new Map({
+          basemap: 'streets-vector',
+          layers: [resultsLayer]
+        })
+
+        // Se crea la vista del mapa
+
+        var view = new MapView({
+          container: 'viewDiv',
+          map: map,
+          zoom: 5,
+          center: [-112.9007, 45.0379]
+        })
+
+        // Se llama a la featureLayer a la que haremos la query, que en este caso dejaremos oculta
+        let featureLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/national_park_service/FeatureServer/0",
+        });
+        map.add(featureLayer);
+
+        // Definimos la geometría de consulta
+        var polygon = {
+          type: "polygon",
+          spatialReference: { wkid: 4326 },
+          rings: [
+            [-99.55, 45.0],
+            [-78.0, 45.0],
+            [-78.0, 30.0],
+            [-99.55, 30.0],
+            [-99.55, 45.0] // Cerramos el polígono volviendo al primer punto
+          ]
+        };
+
+        // Configuraramos la simbología del polígono
+        let symbol = {
+          type: "simple-fill",
+          color: [0, 0, 255, 0.3], // Azul con 30% de opacidad
+          outline: {
+            color: [0, 0, 255],
+            width: 2
+          }
+        };
+
+        // Creamos el gráfico uniendo geometría y simbología
+          var polygonGraphic = new Graphic({
+            geometry: polygon,
+            symbol: symbol
+          });
+
+          // Lo añadimos a la capa que ya tenemos creada
+          resultsLayer.add(polygonGraphic);
+
+        // Definimos la consulta espacial
+          var query = new Query({
+            geometry: polygon, // Usamos la geometría en lugar de 'where'
+            spatialRelationship: "intersects", // Relación espacial
+            returnGeometry: true,
+            outFields: ["City", "State", "Zip_Code", "Phone_Number"]
+          });
+
+        // Ejecutamos la consulta
+          featureLayer
+            .queryFeatures(query)
+            .then(function (results) {
+              console.log("Resultados encontrados: ", results.features.length);
+              displayResults(results);
+            })
+            .catch(function (error) {
+              console.log("Error en la query: ", error);
+            });
+
+       /* // Se crea la query de tipo where
+        var query = new Query({
+          where: "Location_Name = 'Fort Vancouver National Historic Site'",
+
+          // Se pide que devuelva la geometría para poder pintarlo posteriormente en la capa grafica
+          returnGeometry: true,
+
+          // Estos son los campos de la tabla de atributos que nos devolverá la query.
+          outFields: ["City", "State", "Zip_Code", "Phone_Number"],
+        });*/
+
+        // En este paso ejecutamos la query en la capa. Y esperamos la respuesta con .then y .catch que gestiona los errores
+        featureLayer
+          .queryFeatures(query)
+          .then(function (results) {
+            console.log(results);
+            displayResults(results);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+        // Se genera la simbología para cada uno de los resultados
+
+        function displayResults(results) {
+          var features = results.features.map(function (graphic) {
+            graphic.symbol = {
+              type: "simple-marker", // El tipo de símbolo
+              style: "diamond",      // El estilo del símbolo
+              size: 26.5,            // El tamaño del símbolo
+              color: "red",          // El color del símbolo
+            };
+            return graphic;
+          });
+          resultsLayer.addMany(features);
+        }
+      })
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
