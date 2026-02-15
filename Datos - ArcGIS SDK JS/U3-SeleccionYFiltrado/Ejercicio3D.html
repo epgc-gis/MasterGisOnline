@@ -73,19 +73,18 @@
         let params = new BufferParameters({
 
             // Captura la geometría del evento click con el método .mapPoint
-
-
+            geometries: [evt.mapPoint],
 
             // Las distancias a las que se generaran los buffers
-
+            distances: [200, 400],
 
 
             // Las unidades de las distancias
-
+            unit: "kilometers",
 
             
             // La referencia espacial
-
+            outSpatialReference: map.spatialReference,
 
         })
 
@@ -155,9 +154,17 @@
 
     function myQuery(geometryb){
         query = featureLayer.createQuery();
-        query.geometry = ;
-        query.spatialRelationship = ;
+        query.geometry = geometryb;
+        query.spatialRelationship = "contains"
     }
+
+    //Ejecutamos la consulta
+    featureLayer
+        .queryFeatures(query)
+        .then(function (results) {
+            // Una vez realizada la query se le pasan los resultados a la función displayResults
+            displayResults(results);
+        });
 
     // Con los resultados se realiza un bucle para aplicarle simbología a todos ellos.
 
