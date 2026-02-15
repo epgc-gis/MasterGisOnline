@@ -25,7 +25,14 @@
     <script src="https://js.arcgis.com/4.27/"></script>
 
     <script>
-      require([], function () {
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/rest/support/Query",
+        "esri/layers/GraphicsLayer"
+      ], function (Map, MapView, FeatureLayer, Query, GraphicsLayer) {
+
         // Se crea la capa de resultados con el GraphiLayer
 
         var resultsLayer = new GraphicsLayer()
@@ -47,12 +54,47 @@
         })
 
         // Se llama a la featureLayer a la que haremos la query, que en este caso dejaremos oculta
+        let featureLayer = new FeatureLayer({
+          url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/national_park_service/FeatureServer/0",
+        });
+        map.add(featureLayer);
 
         // Se crea la query de tipo where
+        var query = new Query({
+          where: "Location_Name = 'Fort Vancouver National Historic Site'",
+
+          // Se pide que devuelva la geometría para poder pintarlo posteriormente en la capa grafica
+          returnGeometry: true,
+
+          // Estos son los campos de la tabla de atributos que nos devolverá la query.
+          outFields: ["City", "State", "Zip_Code", "Phone_Number"],
+        });
 
         // En este paso ejecutamos la query en la capa. Y esperamos la respuesta con .then y .catch que gestiona los errores
+        featureLayer
+          .queryFeatures(query)
+          .then(function (results) {
+            console.log(results);
+            displayResults(results);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
 
         // Se genera la simbología para cada uno de los resultados
+
+        function displayResults(results) {
+          var features = results.features.map(function (graphic) {
+            graphic.symbol = {
+              type: "simple-marker", // El tipo de símbolo
+              style: "diamond",      // El estilo del símbolo
+              size: 26.5,            // El tamaño del símbolo
+              color: "red",          // El color del símbolo
+            };
+            return graphic;
+          });
+          resultsLayer.addMany(features);
+        }
       })
     </script>
   </head>
