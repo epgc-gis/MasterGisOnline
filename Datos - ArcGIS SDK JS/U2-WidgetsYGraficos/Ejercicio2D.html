@@ -23,20 +23,32 @@
         // Carga los módulos necesarios
 
         require([
-
-        ], () => {
+            "esri/WebMap",
+            "esri/views/MapView",
+            "esri/widgets/Editor"
+            ], function (WebMap, MapView, Editor) {
+            
 
             // Creamos el mapa
 
-
+            let webmap = new WebMap({
+                portalItem: {
+                id: "459a495fc16d4d4caa35e92e895694c8"
+                }        
+            });
             // Creamos la vista
-
+            const view = new MapView({
+                container: "viewDiv",
+                map: webmap
+            });
 
             // Creamos el widget de Editor
-
+            let editor = new Editor({
+                view: view
+                });
 
             // Añadimos el widget a la vista.
-
+            view.ui.add(editor, "bottom-left");
             
         });
     </script>
