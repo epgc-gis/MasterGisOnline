@@ -37,18 +37,56 @@
       ) {
 
         // Se crea un renderizador de Class Breaks por el campo POP2010
-
-        
+        var districtsRenderer = new ClassBreaksRenderer({
+            field: "POP2010",
+          });
+                  
 
         // Se aplican los colores y los valores al renderizador
 
-        
+        districtsRenderer.addClassBreakInfo({
+          minValue: 0,
+          maxValue: 500000,
+          symbol: {
+            type: "simple-fill",
+            color: "red",
+          }
+        });
+
+        districtsRenderer.addClassBreakInfo({
+          minValue: 500001,
+          maxValue: 650000,
+          symbol: {
+            type: "simple-fill",
+            color: "blue",
+          }
+        });
+
+        districtsRenderer.addClassBreakInfo({
+          minValue: 650001,
+          maxValue: 800000,
+          symbol: {
+            type: "simple-fill",
+            color: "green",
+          }
+        });
+
+        districtsRenderer.addClassBreakInfo({
+          minValue: 800001,
+          maxValue: 10000000,
+          symbol: {
+            type: "simple-fill",
+            color: "orange",
+          }
+        });
+
+      
 
         // Se crea la FeatureLayer a la que le vamos a aplicar el renderizador
 
         var districtsLayer = new FeatureLayer({
           url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/CongressionalDistricts/FeatureServer/0",
-          renderer: , //Se aplica el renderizador
+          renderer: districtsRenderer, //Se aplica el renderizador
           minScale: 0,
           maxScale: 0,
         });
