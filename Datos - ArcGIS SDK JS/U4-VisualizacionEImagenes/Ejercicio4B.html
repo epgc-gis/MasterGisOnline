@@ -29,21 +29,48 @@
     require([
         "esri/Map",
         "esri/views/MapView",
-        "esri/layers/FeatureLayer"
+        "esri/layers/FeatureLayer",
+        "esri/renderers/UniqueValueRenderer"
       ],
       function(
-        Map, MapView, FeatureLayer
+        Map, MapView, FeatureLayer, UniqueValueRenderer
       ) {
 
         // Se crea el renderizador de valores únicos
-
+        var farmsRenderer = new UniqueValueRenderer({
+          field: "PARCEL_TYP",
+          defaultSymbol: { type: "simple-fill" }
+        });
         // Ahora se configuran los colores para cada uno de los valores
+      farmsRenderer.addUniqueValueInfo({
+          value: "NON-SEVER EXCEPTION",
+          symbol: {
+            type: "simple-fill",
+            color: "green",
+          }
+       });
+
+      farmsRenderer.addUniqueValueInfo({
+        value: "PARCEL",
+        symbol: {
+          type: "simple-fill",
+          color: "yellow",
+        }
+      });
+
+      farmsRenderer.addUniqueValueInfo({
+        value: "SEVERABLE EXCEPTION",
+        symbol: {
+          type: "simple-fill",
+          color: "blue",
+        }
+      });
 
         // Se crea la feature Layer
 
         var farmsLayer = new FeatureLayer({
           url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/NJ_Farmland_Preservation_Areas/FeatureServer/0",
-          renderer: , // Se aplica la renderización a la feature layer
+          renderer: farmsRenderer, // Se aplica la renderización a la feature layer
           minScale: 0,
           maxScale: 0,
         });
