@@ -43,9 +43,25 @@
           let viento = new ImageryTileLayer({
             url: "https://tiledimageservices.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NLDAS_Hourly_8_30_2021/ImageServer",
             renderer:{
+              type: "flow", //
+              density: 1, //
+              flowSpeed: 20, //
+              maxPathLength: 100, //
+              trailWidth: "2px", //
+              visualVariables: [
+                {
+                  type: "color", //
+                  field: "Magnitude", //
+                  stops: [
+                    { color: [40, 146, 199, 1], value: 0 }, //
+                    { color: [160, 194, 155, 1], value: 5 }, //
+                    { color: [255, 64, 0, 1], value: 10 } //
+                  ]
+                }
+              ]
               },
 
-            effect:""
+            effect:"bloom(2, 0.5px, 0.0)"
           })
 
           map.add(viento)
