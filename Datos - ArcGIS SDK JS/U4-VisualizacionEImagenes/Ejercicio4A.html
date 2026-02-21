@@ -37,13 +37,25 @@
 
         // Crear un renderizador simple.
 
-        
+        var parksRenderer = {
+          type: "simple",
+          symbol: {
+            type: "simple-marker",
+            size: 15,
+            width: 1,
+            color: [64, 255, 0],
+            outline: {
+              width: 2.5,
+              color: "red"
+            }
+          }
+        };
 
         //Se llama a la feature layer a la que queremos aplicar el renderizador.
 
         var parksLayer = new FeatureLayer({
           url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/national_park_service/FeatureServer/0",
-          renderer: , //Se aplica el renderizador a la capa
+          renderer: parksRenderer, //Se aplica el renderizador a la capa
           minScale: 0,
           maxScale: 0,
         });
@@ -58,7 +70,7 @@
         var view = new MapView({
           container: "viewDiv",
           map: map,
-          center: [-76.925, 39.741638],
+          center: [-119.4179, 36.7783],
           zoom: 7
         });
 
